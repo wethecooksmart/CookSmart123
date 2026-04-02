@@ -1,0 +1,723 @@
+/* login-modal.css */
+
+/* Import the specific fonts you requested */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700&family=Pragati+Narrow:wght@400;700&family=Cambay:wght@400;700&display=swap');
+
+/* Login Modal Overlay */
+.login-modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 9998;
+  animation: fadeIn 0.3s ease;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-modal-overlay.active {
+  display: flex !important;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Main Login Modal Container */
+.login-modal {
+  background-image: url('images/login-modal.jpg');
+  background-size: cover;
+  background-position: center;
+  width: 90%;
+  max-width: 1000px;
+  height: auto;
+  min-height: 600px;
+  border-radius: 0px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: slideUp 0.4s ease;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  position: relative;
+  padding: 40px;
+  box-sizing: border-box;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.login-modal-left {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .login-modal-left {
+    display: none;
+  }
+  
+  .login-modal {
+    width: 90%;
+    max-width: 1200px;
+    height: 700px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+  }
+  
+  .login-modal-right {
+    flex: 0 0 auto;
+    width: 350px;
+    padding: 50px 35px;
+  }
+}
+
+.login-modal-right {
+  flex: 0 0 auto;
+  width: 500px;
+  min-height: auto;
+  padding: 50px 35px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-sizing: border-box;
+  background: linear-gradient(135deg, #C99A6A 0%, #D4A574 50%, #E5B580 100%);
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  max-height: 90vh;
+  overflow-y: auto;
+  scrollbar-width: none; /* hides scrollbar on Firefox */
+}
+
+.login-modal-right::-webkit-scrollbar {
+  display: none; /* hides scrollbar on Chrome/Safari */
+}
+
+@media (max-width: 767px) {
+  .login-modal {
+    width: 95%;
+    max-width: 500px;
+    height: auto;
+    padding: 50px;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+  }
+
+  .login-modal-right {
+    width: 100%;
+    flex: 1 1 100%;
+    min-height: auto;
+    padding: 50px 20px;
+    max-height: auto;
+    overflow-y: visible;
+    justify-content: flex-start;
+    box-sizing: border-box;
+    border-radius: 15px;
+  }
+}
+
+/* Heading */
+.login-modal h2 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 42px;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 5px 0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+}
+
+/* Subheading */
+.login-modal-subtitle {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.95);
+  margin: 0 1px 5px 0;
+}
+
+/* Google Login Button */
+.login-google-btn {
+  width: 100%;
+  background: #ffffff;
+  border: none;
+  padding: 14px 20px;
+  border-radius: 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0px;
+  cursor: pointer;
+  font-family: 'Poppins', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: #333333;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  margin-bottom: 20px;
+}
+
+.login-google-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+.google-icon {
+  width: 20px;
+  height: 20px;
+}
+
+/* Divider */
+.login-divider {
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 14px;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.login-divider::before,
+.login-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.login-divider span {
+  padding: 0 12px;
+}
+
+/* Form Group */
+.login-form-group {
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.login-form-row {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+}
+
+.login-form-row .login-form-group {
+  flex: 1;
+  margin-bottom: 10px;
+}
+
+.login-form-group label {
+  font-family: 'Pragati Narrow', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: #ffffff;
+  display: block;
+  margin-bottom: 0px;
+}
+
+.login-form-group input {
+  width: 100%;
+  padding: 12px 15px;
+  border: none;
+  border-radius: 0px;
+  font-family: 'Pragati Narrow', sans-serif;
+  font-size: 14px;
+  color: #333333;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+.login-form-group input:focus {
+  outline: none;
+  background: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transform: translateY(-1px);
+}
+
+.login-form-group input::placeholder {
+  color: #999999;
+}
+
+/* Password input with eye icon */
+.password-input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.password-input-wrapper input[type="password"],
+.password-input-wrapper input[type="text"] {
+  padding-right: 40px; /* space for the eye icon */
+}
+
+.toggle-password-visibility {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+  height: 24px;
+  width: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #bfa16b;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
+
+.toggle-password-visibility:hover {
+  opacity: 1;
+}
+
+.eye-icon {
+  width: 22px;
+  height: 22px;
+  display: block;
+}
+
+/* Forgot Password Link */
+.login-forgot-password {
+  text-align: right;
+  margin-bottom: 25px;
+}
+
+.login-forgot-password a {
+  font-family: 'Cambay', sans-serif;
+  font-size: 13px;
+  color: #4a90e2;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.login-forgot-password a:hover {
+  color: #2e5c8a;
+  text-decoration: underline;
+}
+
+/* Login Button */
+.login-btn {
+  background: #ffffff;
+  color:#D4A574;
+  border: none;
+  padding: 14px 20px;
+  border-radius: 0px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.login-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.login-btn:active {
+  transform: translateY(0);
+}
+
+.login-btn.loading {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Sign Up Section */
+.login-signup-section {
+  text-align: center;
+  padding-top: 15px;
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.login-signup-section p {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.login-signup-section a {
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  color: #4a90e2;
+  text-decoration: none;
+  font-weight: 700;
+  transition: color 0.3s ease;
+  cursor: pointer;
+}
+
+.login-signup-section a:hover {
+  color: #2e5c8a;
+  text-decoration: underline;
+}
+
+/* Sign Up Form (initially hidden) */
+.login-form {
+  width: 100%;
+  display: block;
+  flex-shrink: 0;
+}
+
+.login-form.active {
+  display: none;
+}
+
+.login-signup-form {
+  width: 100%;
+  display: none;
+  flex-shrink: 0;
+}
+
+.login-signup-form.active {
+  display: block;
+}
+
+/* Close Button */
+.login-modal-close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: rgba(255, 255, 255, 0.3);
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 24px;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+.login-modal-close:hover {
+  background: rgba(255, 255, 255, 0.5);
+  transform: rotate(90deg);
+}
+
+/* Error Message */
+.login-error-message {
+  background: rgba(220, 53, 69, 0.8);
+  color: #ffffff;
+  padding: 12px;
+  border-radius: 6px;
+  margin-bottom: 15px;
+  font-size: 13px;
+  visibility: hidden;
+  opacity: 0;
+  height: 0;
+  overflow: hidden;
+  padding: 0;
+  margin: 0;
+  transition: all 0.3s ease;
+}
+
+.login-error-message.show {
+  visibility: visible;
+  opacity: 1;
+  height: auto;
+  padding: 12px;
+  margin-bottom: 15px;
+  transition: all 0.3s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Success Message */
+.login-success-message {
+  background: rgba(40, 167, 69, 0.8);
+  color: #ffffff;
+  padding: 12px;
+  border-radius: 6px;
+  margin-bottom: 15px;
+  font-size: 13px;
+  visibility: hidden;
+  opacity: 0;
+  height: 0;
+  overflow: hidden;
+  padding: 0;
+  margin: 0;
+  transition: all 0.3s ease;
+}
+
+.login-success-message.show {
+  visibility: visible;
+  opacity: 1;
+  height: auto;
+  padding: 12px;
+  margin-bottom: 15px;
+  transition: all 0.3s ease;
+}
+
+/* Profile Menu Styles */
+.profile-menu-item {
+  position: relative;
+  list-style: none;
+}
+
+.profile-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  color: inherit;
+  font-weight: 500;
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.profile-link:hover {
+  background-color: rgba(201, 154, 106, 0.1);
+  color: #C99A6A;
+}
+
+.profile-name {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.profile-dropdown-icon {
+  width: 16px;
+  height: 16px;
+  transition: transform 0.3s ease;
+  color: currentColor;
+}
+
+.profile-menu-item .profile-dropdown-icon {
+  transform: rotate(0deg);
+}
+
+.profile-menu-item .profile-dropdown.show .profile-dropdown-icon {
+  transform: rotate(180deg);
+}
+
+.profile-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  min-width: 180px;
+  display: none;
+  z-index: 10000;
+  overflow: visible; /* allow nested submenu to extend outside without being clipped */
+  animation: slideDown 0.2s ease;
+  margin-top: 2px; /* reduce gap so mouse doesn't leave the hover area */
+}
+
+.profile-dropdown.show {
+  display: block;
+}
+
+/* When the main dropdown is opened via click (has .show), also reveal the nested submenu
+   so users can click 'Personal details' and 'Saved recipes' after opening the dropdown. */
+.profile-dropdown.show > .profile-submenu-left {
+  display: block;
+}
+
+/* Show dropdown on hover for pointer devices (keeps click toggle intact) */
+@media (hover: hover) and (pointer: fine) {
+  /* On hover show the main dropdown and the side list. Dropdown still toggles via click for accessibility. */
+  .profile-menu-item:hover .profile-dropdown {
+    display: block;
+  }
+}
+
+/* keep dropdown visible when hovering it directly (prevents flicker when moving pointer) */
+.profile-dropdown:hover {
+  display: block;
+}
+
+/* (Removed profile-side-list styles; nested submenu used instead) */
+
+/* small sublist inside dropdown (Personal details / Saved recipes) */
+.profile-submenu-left {
+  position: absolute;
+  top: 0;
+  right: 100%;
+  margin-right: 8px;
+  background: white;
+  border: 1px solid #e6e6e6;
+  border-radius: 8px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  min-width: 160px;
+  display: none;
+  overflow: hidden;
+  z-index: 10001;
+}
+
+/* reveal nested submenu only when hovering the Profile row (or focusing it) */
+@media (hover: hover) and (pointer: fine) {
+  .profile-item-with-sub:hover ~ .profile-submenu-left,
+  .profile-item-with-sub:focus-within ~ .profile-submenu-left {
+    display: block;
+  }
+}
+
+/* Also show nested submenu when dropdown is programmatically opened (click -> .show)
+   or when the Profile row contains keyboard focus (focus-within). This ensures
+   the submenu is visible for both hover and click interactions. */
+.profile-item-with-sub:focus-within ~ .profile-submenu-left {
+  display: block;
+}
+
+/* caret indicator on Profile row to show it has a nested submenu */
+.profile-item-with-sub .profile-link-item {
+  position: relative;
+  padding-right: 28px; /* space for the caret */
+}
+.profile-item-with-sub .profile-link-item::after {
+  content: '◂';
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #9aa3ad;
+  font-size: 12px;
+  transition: transform 0.15s ease, color 0.15s ease;
+}
+.profile-item-with-sub:hover .profile-link-item::after {
+  transform: translateY(-50%) translateX(-2px);
+  color: #764ba2;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.profile-menu-link {
+  display: block;
+  padding: 12px 16px;
+  text-decoration: none;
+  color: #333;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.profile-menu-link:last-child {
+  border-bottom: none;
+}
+
+.profile-menu-link:hover {
+  background-color: #f5f5f5;
+  color: #C99A6A;
+}
+
+.logout-link {
+  color: #d32f2f;
+}
+
+.logout-link:hover {
+  background-color: #ffebee;
+  color: #c62828;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .login-modal-right {
+    padding: 35px 20px;
+  }
+  
+  .login-modal h2 {
+    font-size: 32px;
+  }
+  
+  .login-modal-subtitle {
+    font-size: 14px;
+  }
+
+  .profile-dropdown {
+    min-width: 150px;
+  }
+}
+
+@media (max-width: 768px) {
+  .profile-menu-item,
+  .profile-link,
+  .profile-dropdown,
+  .profile-submenu-left {
+    width: 100%;
+  }
+
+  .profile-dropdown {
+    position: static;
+    top: auto;
+    right: auto;
+    left: auto;
+    margin-top: 8px;
+    border: 1px solid #e0e0e0;
+    box-shadow: none;
+    min-width: auto;
+  }
+
+  .profile-submenu-left {
+    position: static;
+    top: auto;
+    right: auto;
+    left: auto;
+    margin: 0;
+    border: none;
+    box-shadow: none;
+    display: block;
+  }
+
+  .profile-item-with-sub:hover ~ .profile-submenu-left,
+  .profile-item-with-sub:focus-within ~ .profile-submenu-left {
+    display: block;
+  }
+
+  .profile-menu-link {
+    white-space: normal;
+  }
+}
+

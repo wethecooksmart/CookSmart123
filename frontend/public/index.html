@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CookSmart - Home</title>
+
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="login-modal.css">
+<script src="script.js" defer></script>
+<script src="login-modal.js" defer></script>
+
+
+
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+line-height:1.6;
+color:#333;
+background-image: linear-gradient(rgba(255,250,240,0.85), rgba(243,248,255,0.85)), url('https://static.vecteezy.com/system/resources/previews/008/660/558/non_2x/organic-food-background-hand-drawn-concept-free-vector.jpg');
+background-size:cover;
+background-position:center;
+background-attachment:fixed;
+}
+/* Hamburger Button */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  z-index: 1001;
+}
+
+.hamburger span {
+  display: block;
+  width: 25px;
+  height: 3px;
+  background: #764ba2;
+  border-radius: 3px;
+  transition: all 0.3s ease;
+}
+
+/* Hamburger animation when open */
+.hamburger.open span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 6px);
+}
+.hamburger.open span:nth-child(2) {
+  opacity: 0;
+}
+.hamburger.open span:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -6px);
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+  .hamburger {
+    display: flex; /* ✅ show on mobile */
+  }
+
+  .navbar-menu {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 70px;
+    left: 0;
+    right: 0;
+    background: white;
+    padding: 16px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+    z-index: 1000;
+    gap: 8px;
+  }
+
+  .navbar-menu.open {
+    display: flex; /* ✅ show menu when open */
+  }
+
+  .navbar-menu li {
+    width: 100%;
+    text-align: center;
+  }
+
+  .navbar-menu li a {
+    display: block;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 1rem;
+    color: #333;
+    transition: background 0.2s;
+  }
+
+  .navbar-menu li a:hover {
+    background: #f3f0fa;
+    color: #764ba2;
+  }
+
+  /* Make sure navbar is relative for absolute menu */
+  .navbar {
+    position: relative;
+  }
+  body {
+    background-attachment: scroll;
+  }
+  .hero {
+    max-width: 100%;
+    margin: 2rem 1rem;
+    padding: 4rem 1.5rem;
+    background-attachment: scroll;
+    background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('images/kitchenhome.jpg') !important;
+    background-size: cover !important;
+    background-position: center !important;
+  }
+  .hero h1 {
+    font-size: clamp(1.8rem, 8vw, 2.4rem);
+  }
+  .hero p {
+    font-size: clamp(0.95rem, 4vw, 1.1rem);
+  }
+  .cta-btn {
+    font-size: 1rem;
+    padding: 1rem 2rem;
+  }
+}
+.hero{
+max-width:1200px;
+margin:4rem auto;
+border-radius:20px;
+overflow:hidden;
+
+background-image:
+linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)),
+url('images/kitchen-background1.png');
+
+background-size:cover;
+background-position:center;
+
+color:white;
+padding:5rem 2rem;
+text-align:center;
+}
+
+.hero-content{
+max-width:800px;
+margin:0 auto;
+}
+
+.hero h1{
+font-size:3rem;
+margin-bottom:1rem;
+}
+
+.hero p{
+font-size:1.3rem;
+margin-bottom:2rem;
+}
+
+.cta-btn{
+display:inline-block;
+text-decoration:none;
+background:white;
+color:#764ba2;
+padding:1.2rem 3rem;
+border-radius:50px;
+font-size:1.2rem;
+font-weight:bold;
+cursor:pointer;
+}
+
+.section-title{
+text-align:center;
+font-size:2.5rem;
+margin-top:3rem;
+margin-bottom:2rem;
+color:#333;
+}
+
+.features{
+max-width:1200px;
+margin:4rem auto;
+padding:0 2rem;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+gap:2rem;
+}
+
+.feature-card{
+background:white;
+padding:2rem;
+border-radius:15px;
+box-shadow:0 5px 20px rgba(0,0,0,0.1);
+text-align:center;
+transition:transform 0.3s, box-shadow 0.3s;
+}
+
+.feature-card:hover{
+transform:translateY(-5px);
+box-shadow:0 10px 30px rgba(0,0,0,0.15);
+}
+
+.feature-icon{
+font-size:3rem;
+margin-bottom:1rem;
+}
+
+.feature-card h3{
+color:#764ba2;
+margin-bottom:1rem;
+font-size:1.5rem;
+}
+
+.feature-card p{
+color:#666;
+line-height:1.8;
+}
+
+.how-it-works{
+background:#f8f9fa;
+padding:4rem 2rem;
+text-align:center;
+}
+
+.how-it-works h2{
+font-size:2.5rem;
+margin-bottom:3rem;
+}
+
+.steps{
+max-width:1200px;
+margin:0 auto;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:2rem;
+}
+
+.step{
+background:white;
+padding:2rem;
+border-radius:15px;
+box-shadow:0 5px 20px rgba(0,0,0,0.08);
+}
+
+.step-number{
+background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);
+color:white;
+width:50px;
+height:50px;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:1.5rem;
+font-weight:bold;
+margin:0 auto 1rem;
+}
+
+.footer{
+text-align:center;
+padding:20px;
+background:white;
+color:black;
+margin-top:40px;
+}
+
+</style>
+</head>
+
+<body>
+
+<nav class="navbar">
+<div class="navbar-container">
+  <a href="index.html" class="navbar-brand">
+    <img src="images/logo.jpg" alt="Logo" style="height:60px; width:200px; border-radius:8%; margin-right:0.5rem; object-fit:cover; vertical-align:middle;">
+  </a>
+
+  <!-- ✅ Hamburger button -->
+  <button class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+
+  <ul class="navbar-menu" id="navbar-menu">
+    <li><a href="index.html" class="active">Home</a></li>
+    <li><a href="discover.html" onclick="return LoginModal.requireLogin(event)">Discover</a></li>
+    <li><a href="trending.html" onclick="return LoginModal.requireLogin(event)">Trending</a></li>
+    <li><a href="about.html" onclick="return LoginModal.requireLogin(event)">About</a></li>
+  </ul>
+</div>
+</nav>
+
+<!-- HERO -->
+
+<section class="hero">
+<div class="hero-content">
+<h1>Cook Delicious Meals with What You Have</h1>
+<p>Enter your ingredients and discover amazing recipes you can make right now</p>
+<a href="#" onclick="return LoginModal.requireLogin(event, 'discover.html')" class="cta-btn">Start Searching Recipes</a>
+</div>
+</section>
+
+<!-- WHY COOKSMART -->
+
+<h2 class="section-title">Why CookSmart?</h2>
+
+<section class="features">
+
+<div class="feature-card">
+<div class="feature-icon">🔍</div>
+<h3>Smart Search</h3>
+<p>Simply enter the ingredients you have at home, and we'll instantly suggest delicious recipes you can make.</p>
+</div>
+
+<div class="feature-card">
+<div class="feature-icon">⏱️</div>
+<h3>Save Time</h3>
+<p>No more wondering what to cook. Get instant recipe suggestions based on what's in your kitchen.</p>
+</div>
+
+<div class="feature-card">
+<div class="feature-icon">💰</div>
+<h3>Reduce Waste</h3>
+<p>Use up ingredients before they expire and save money by making the most of what you already have.</p>
+</div>
+
+</section>
+<!-- HOW IT WORKS -->
+
+<section class="how-it-works">
+<h2>How It Works</h2>
+
+<div class="steps">
+
+<div class="step">
+<div class="step-number">1</div>
+<h3>Enter Ingredients</h3>
+<p>Type in the ingredients you have available in your kitchen</p>
+</div>
+
+<div class="step">
+<div class="step-number">2</div>
+<h3>Get Matches</h3>
+<p>Our system finds recipes that match your ingredients</p>
+</div>
+
+<div class="step">
+<div class="step-number">3</div>
+<h3>Start Cooking</h3>
+<p>Choose a recipe and follow the step-by-step instructions</p>
+</div>
+
+</div>
+</section>
+
+<!-- MORE BENEFITS -->
+
+<h2 class="section-title">More Benefits</h2>
+
+<section class="features">
+
+<div class="feature-card">
+<div class="feature-icon">⭐</div>
+<h3>Community Rated</h3>
+<p>Recipes are rated by users to help you choose the best dishes.</p>
+</div>
+
+<div class="feature-card">
+<div class="feature-icon">📱</div>
+<h3>Mobile Friendly</h3>
+<p>CookSmart works perfectly on phones, tablets, and desktops.</p>
+</div>
+
+<div class="feature-card">
+<div class="feature-icon">🍽️</div>
+<h3>Today's Recommendations</h3>
+<p>Discover trending and recommended recipes updated daily.</p>
+</div>
+
+</section>
+
+
+
+<footer class="footer">
+<p>&copy; 2026 CookSmart. Made with ❤️ by Team CookSmart</p>
+</footer>
+
+<script>
+function toggleMenu() {
+  const menu = document.getElementById('navbar-menu');
+  const hamburger = document.getElementById('hamburger');
+  menu.classList.toggle('open');
+  hamburger.classList.toggle('open');
+}
+
+// Close menu when clicking outside
+document.addEventListener('click', function(e) {
+  const menu = document.getElementById('navbar-menu');
+  const hamburger = document.getElementById('hamburger');
+  if (!menu.contains(e.target) && !hamburger.contains(e.target)) {
+    menu.classList.remove('open');
+    hamburger.classList.remove('open');
+  }
+});
+
+// Close menu when a link is clicked
+document.querySelectorAll('.navbar-menu a').forEach(link => {
+  link.addEventListener('click', () => {
+    document.getElementById('navbar-menu').classList.remove('open');
+    document.getElementById('hamburger').classList.remove('open');
+  });
+});
+</script>
+
+</body>
+</html>

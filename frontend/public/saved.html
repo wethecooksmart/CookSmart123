@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>CookSmart - Saved Recipes</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="script.js" defer></script>
+  <link rel="stylesheet" href="login-modal.css" />
+  <script src="login-modal.js" defer></script>
+  <link rel="stylesheet" href="feedback.css" />
+  <script src="feedback.js" defer></script>
+  <script src="profile-pages.js" defer></script>
+</head>
+<body class="bg-discover page-with-sticky-footer">
+  <!-- Navbar (matches other pages) -->
+  <nav class="navbar">
+    <div class="navbar-container">
+      <a href="index.html" class="navbar-brand">
+        <img src="images/logo.jpg" alt="Logo" style="height:60px; width:200px; border-radius:8%; margin-right:0.5rem; object-fit:cover; vertical-align:middle;">
+      </a>
+
+      <!-- Hamburger for small screens -->
+      <button class="hamburger" id="hamburger" onclick="toggleMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <ul class="navbar-menu" id="navbar-menu">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="discover.html" onclick="return LoginModal.requireLogin(event)">Discover</a></li>
+        <li><a href="trending.html" onclick="return LoginModal.requireLogin(event)">Trending</a></li>
+        <li><a href="about.html" onclick="return LoginModal.requireLogin(event)">About</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="main-content saved-recipes-page" style="max-width:1100px;margin:40px auto;padding:0 16px;">
+    <h1 style="text-align:center;color:#764ba2;margin-bottom:12px;">Saved Recipes</h1>
+    <p style="text-align:center;color:#667eea;margin-bottom:18px;">Recipes you saved will appear here.</p>
+
+    <div id="savedRecipesContainer" class="recipe-grid"></div>
+
+    <div id="savedEmpty" class="empty-state" style="display:none;margin-top:18px;">
+      <div class="empty-state-icon">😌</div>
+      <h4>No saved recipes yet</h4>
+      <p>Save recipes from Discover to see them here.</p>
+    </div>
+  </main>
+  <!-- Footer -->
+  <footer class="footer">
+    <p>&copy; 2026 CookSmart. Made with ❤️</p>
+  </footer>
+</body>
+</html>

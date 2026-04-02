@@ -1,0 +1,1833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CookSmart - Discover</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="script.js" defer></script>
+  <link rel="stylesheet" href="login-modal.css" />
+<script src="login-modal.js" defer></script>
+<link rel="stylesheet" href="feedback.css" />
+<script src="feedback.js" defer></script>
+  
+  
+  <style>
+    /* Custom background image for Discover page */
+    body.bg-discover {
+      background-image: linear-gradient(rgba(255,250,240,0.85), rgba(243,248,255,0.85)), url('https://static.vecteezy.com/system/resources/previews/008/660/558/non_2x/organic-food-background-hand-drawn-concept-free-vector.jpg');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+    }
+    /* Hamburger Button */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  z-index: 1001;
+}
+
+.hamburger span {
+  display: block;
+  width: 25px;
+  height: 3px;
+  background: #764ba2;
+  border-radius: 3px;
+  transition: all 0.3s ease;
+}
+
+/* Hamburger animation when open */
+.hamburger.open span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 6px);
+}
+.hamburger.open span:nth-child(2) {
+  opacity: 0;
+}
+.hamburger.open span:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -6px);
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+  .hamburger {
+    display: flex; /* ✅ show on mobile */
+  }
+
+  .navbar-menu {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 70px;
+    left: 0;
+    right: 0;
+    background: white;
+    padding: 16px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+    z-index: 1000;
+    gap: 8px;
+  }
+
+  .navbar-menu.open {
+    display: flex; /* ✅ show menu when open */
+  }
+
+  .navbar-menu li {
+    width: 100%;
+    text-align: center;
+  }
+
+  .navbar-menu li a {
+    display: block;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 1rem;
+    color: #333;
+    transition: background 0.2s;
+  }
+
+  .navbar-menu li a:hover {
+    background: #f3f0fa;
+    color: #764ba2;
+  }
+
+  /* Make sure navbar is relative for absolute menu */
+  .navbar {
+    position: relative;
+  }
+}
+    .discover-header {
+      text-align: center;
+      margin-top: 36px;
+      margin-bottom: 18px;
+      color: #333;
+      background:  var(--card-bg, #f8fafc);
+      padding: 24px 12px;
+      border-radius: 16px;
+      box-shadow: 0 8px 32px rgba(15,23,42,0.10);
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .discover-header h1 {
+      font-size: 2.1rem;
+      font-weight: 800;
+      margin-bottom: 8px;
+      color: #764ba2;
+    }
+    .discover-header p {
+      font-size: 1.08rem;
+      color: #667eea;
+      margin-bottom: 0;
+    }
+    .main-content {
+      margin-top: 0;
+    }
+    .search-panel {
+      margin-bottom: 24px;
+    }
+    .recipes-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+    .empty-state {
+      text-align: center;
+      padding: 32px 12px;
+      color: #667eea;
+      background: rgba(240, 235, 235, 0.85);
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(102,126,234,0.08);
+    }
+    .empty-state-icon {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+    
+    /* Enhanced filter buttons */
+    .quick-filters {
+      display: flex;
+      gap: 8px;
+      margin-top: 16px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .filter-btn {
+      padding: 10px 16px;
+      border-radius: 20px;
+      border: 2px solid #e6edf3;
+      background: white;
+      color: #2d3748;
+      cursor: pointer;
+      font-size: 0.95rem;
+      font-weight: 600;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .filter-btn:hover {
+      border-color: #667eea;
+      transform: translateY(-2px);
+    }
+    .filter-btn.active {
+      background: linear-gradient(45deg, #667eea, #764ba2);
+      color: white;
+      border-color: transparent;
+      box-shadow: 0 4px 12px rgba(102,126,234,0.3);
+    }
+    
+    /* Auto-search notification */
+    .auto-search-notice {
+      text-align: center;
+      color: #667eea;
+      font-size: 0.9rem;
+      margin-top: 8px;
+      font-style: italic;
+    }
+    
+    /* Active filters display */
+    .active-filters-info {
+      text-align: center;
+      margin: 12px 0;
+      min-height: 24px;
+    }
+    
+    /* Filter instructions */
+    .filter-instructions {
+      text-align: center;
+      color: #667eea;
+      font-size: 0.85rem;
+      margin-top: 8px;
+      font-style: italic;
+    }
+
+    /* Small helper styles for tags and recipe cards */
+    #ingredientsList .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin: 6px 6px 0 0;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.9);
+      border: 1px solid rgba(0,0,0,0.06);
+      font-weight: 600;
+      color: #2d3748;
+    }
+    #ingredientsList .tag button {
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      font-size: 0.85rem;
+      color: #c53030;
+      padding: 0 4px;
+    }
+    .recipe-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+  justify-content: start;
+}
+.recipe-grid .recipe-card {
+  max-width: 340px;
+  width: 100%;
+}
+    .recipe-card {
+      background: rgba(255,255,255,0.92);
+      padding: 14px;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(15,23,42,0.06);
+      border: 1px solid rgba(0,0,0,0.02);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+    .recipe-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(15,23,42,0.12);
+    }
+    .recipe-card h3 {
+      margin: 0 0 6px 0;
+      font-size: 1.1rem;
+      color: #2d3748;
+    }
+    .recipe-card p { 
+      margin: 6px 0; 
+      color: #4a5568; 
+      font-size: 0.95rem; 
+    }
+
+    /* Recipe image styling */
+    .recipe-image {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    /* Recipe Options Section */
+    .recipe-options {
+      display: flex;
+      gap: 6px;
+      margin: 12px 0;
+      justify-content: center;
+      flex-wrap: nowrap;
+      width: 100%;
+    }
+
+    .option-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      padding: 6px 10px;
+      border: 1px solid #e6edf3;
+      background: white;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: #4a5568;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      flex: 1;
+      min-width: 0;
+      white-space: nowrap;
+    }
+
+    .option-btn:hover {
+      background: #f8fafc;
+      border-color: #667eea;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 8px rgba(102,126,234,0.15);
+    }
+
+    .option-btn:active {
+      transform: translateY(0);
+    }
+
+    .option-btn.active {
+      background: linear-gradient(45deg, #667eea, #764ba2);
+      color: white;
+      border-color: #667eea;
+      box-shadow: 0 4px 12px rgba(102,126,234,0.3);
+    }
+
+    .option-btn.active:hover {
+      background: linear-gradient(45deg, #5a67d8, #6b46c1);
+      transform: translateY(-1px);
+    }
+
+    .option-icon {
+      font-size: 1rem;
+    }
+
+    .option-text {
+      display: none;
+    }
+
+    /* Show text on larger screens */
+    @media (min-width: 480px) {
+      .option-text {
+        display: inline;
+      }
+      .option-btn {
+        padding: 8px 12px;
+        font-size: 0.9rem;
+      }
+    }
+
+    /* More Details Button */
+    .more-details-btn {
+      margin-top: auto;
+      padding: 10px 20px;
+      border-radius: 8px;
+      border: none;
+      background: linear-gradient(45deg, #667eea, #764ba2);
+      color: white;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      width: 100%;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(102,126,234,0.3);
+    }
+    .more-details-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(102,126,234,0.4);
+    }
+
+    /* Modal Overlay */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 1000;
+      overflow-y: auto;
+      padding: 20px;
+      animation: fadeIn 0.3s ease;
+    }
+    .modal-overlay.active {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Modal Content */
+    .modal-content {
+      background: white;
+      border-radius: 16px;
+      max-width: 700px;
+      width: 100%;
+      padding: 24px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      position: relative;
+      animation: slideUp 0.3s ease;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    /* Close Button */
+    .modal-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: none;
+      background: #f1f5f9;
+      color: #334155;
+      font-size: 1.5rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+      z-index: 10;
+    }
+    .modal-close:hover {
+      background: #e2e8f0;
+      transform: rotate(90deg);
+    }
+
+    /* Modal Recipe Image */
+    .modal-recipe-image {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+      border-radius: 12px;
+      margin-bottom: 16px;
+    }
+
+    /* Modal Recipe Details */
+    .modal-recipe-title {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: #764ba2;
+      margin: 0 0 12px 0;
+    }
+
+    .modal-recipe-description {
+      color: #4a5568;
+      font-size: 1rem;
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+    
+    .modal-details-row {
+      display: flex;
+      gap: 16px;
+      margin: 16px 0;
+      flex-wrap: wrap;
+    }
+
+    .modal-detail-item {
+      flex: 1;
+      min-width: 150px;
+      padding: 12px;
+      background: #f8fafc;
+      border-radius: 8px;
+      border-left: 4px solid #667eea;
+      text-align: center;
+    }
+
+    .modal-detail-item strong {
+      display: block;
+      color: #2d3748;
+      font-weight: 700;
+      margin-bottom: 4px;
+      font-size: 0.9rem;
+    }
+
+    .modal-detail-item span {
+      color: #4a5568;
+      font-size: 1rem;
+    }
+    
+    /* Ingredients section - full width */
+    .modal-ingredients-section {
+      margin: 16px 0;
+      padding: 12px;
+      background: #f8fafc;
+      border-radius: 8px;
+      border-left: 4px solid #667eea;
+    }
+
+    .modal-ingredients-section strong {
+      color: #2d3748;
+      font-weight: 700;
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .modal-ingredients-section span {
+      color: #4a5568;
+    }
+
+    /* Nutrition Dropdown Button */
+.modal-nutrition-dropdown {
+  margin-top: 16px;
+  max-width: 280px;
+}
+
+.nutrition-dropdown-btn {
+  width: 100%;
+  padding: 10px 16px;
+  background: #edf2ff;
+  border: 2px solid #c7d2fe;
+  border-radius: 10px;
+  color: #4c51bf;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: all 0.3s ease;
+}
+
+.nutrition-dropdown-btn:hover {
+  background: #dbeafe;
+  border-color: #93c5fd;
+}
+
+.nutrition-dropdown-btn .arrow {
+  font-size: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.nutrition-dropdown-btn.active .arrow {
+  transform: rotate(180deg);
+}
+
+/* Nutrition Content (Initially Hidden) */
+.modal-nutrition-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  padding: 0 12px;
+  background: #edf2ff;
+  border: 2px solid #c7d2fe;
+  border-top: none;
+  border-radius: 0 0 10px 10px;
+}
+
+.modal-nutrition-content.show {
+  max-height: 400px;
+  padding: 12px;
+  overflow-y: auto;
+}
+
+.modal-nutrition-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.modal-nutrition-list li {
+  padding: 6px 0;
+  color: #4a5568;
+  font-size: 0.85rem;
+  border-bottom: 1px dashed #cbd5e0;
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.modal-nutrition-list li:last-child {
+  border-bottom: none;
+}
+
+.modal-nutrition-list li strong {
+  font-weight: 600;
+  color: #2d3748;
+  font-size: 0.85rem;
+}
+
+    /* Watch Recipe Link in Modal */
+    .modal-youtube-link {
+      display: inline-block;
+      margin-top: 16px;
+      padding: 12px 24px;
+      background: #e46060;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(255,0,0,0.3);
+    }
+
+    .modal-youtube-link:hover {
+      background: #cc0000;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(255,0,0,0.4);
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+      from { 
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to { 
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width:900px){
+      .discover-header { padding: 16px 6px; font-size: 1.1rem; }
+      .quick-filters {
+        gap: 6px;
+      }
+      .filter-btn {
+        padding: 8px 12px;
+        font-size: 0.9rem;
+      }
+      .modal-content {
+        padding: 16px;
+        max-height: 95vh;
+      }
+      .modal-recipe-image {
+        height: 200px;
+      }
+      .modal-recipe-title {
+        font-size: 1.4rem;
+      }
+    }
+
+    /* Ingredient autocomplete suggestions */
+    .ingredient-suggestions{
+      max-width:760px;
+      margin:6px auto 0;
+      background: white;
+      border-radius:8px;
+      box-shadow:0 6px 20px rgba(0,0,0,0.08);
+      overflow:hidden;
+      display:none;
+      z-index:50;
+    }
+    .ingredient-suggestions .item{
+      padding:10px 12px;
+      cursor:pointer;
+      color:#2d3748;
+      font-weight:600;
+      border-bottom:1px solid rgba(0,0,0,0.03);
+    }
+    .ingredient-suggestions .item:hover, .ingredient-suggestions .item.active{
+      background: #f1f5f9;
+    }
+
+    /* Notification Styles */
+    .notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 12px 20px;
+      border-radius: 8px;
+      color: white;
+      font-weight: 500;
+      font-size: 0.9rem;
+      z-index: 10000;
+      transform: translateX(100%);
+      opacity: 0;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      max-width: 300px;
+    }
+
+    .notification.show {
+      transform: translateX(0);
+      opacity: 1;
+    }
+
+    .notification-success {
+      background: linear-gradient(45deg, #48bb78, #38a169);
+    }
+
+    .notification-error {
+      background: linear-gradient(45deg, #f56565, #e53e3e);
+    }
+
+    .notification-info {
+      background: linear-gradient(45deg, #4299e1, #3182ce);
+    }
+
+    .notification-warning {
+      background: linear-gradient(45deg, #ed8936, #dd6b20);
+    }
+     
+     
+  </style>
+</head>
+<body class="bg-discover">
+  <!-- Navbar -->
+ <nav class="navbar">
+<div class="navbar-container">
+  <a href="index.html" class="navbar-brand">
+    <img src="images/logo.jpg" alt="Logo" style="height:60px; width:200px; border-radius:8%; margin-right:0.5rem; object-fit:cover; vertical-align:middle;">
+  </a>
+
+  <!-- ✅ Hamburger button -->
+  <button class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+
+  <ul class="navbar-menu" id="navbar-menu">
+     <li><a href="index.html">Home</a></li>
+   <li><a href="discover.html" class="active">Discover</a></li>
+    <li><a href="trending.html" onclick="return LoginModal.requireLogin(event)">Trending</a></li>
+    <li><a href="about.html" onclick="return LoginModal.requireLogin(event)">About</a></li>
+  </ul>
+</div>
+</nav>
+
+  <!-- Discover Header Section -->
+  <div class="discover-header">
+    <h1>Discover Recipes Tailored For You</h1>
+    <p>Enter your ingredients and recipes will appear automatically. Combine multiple filters for precise results!</p>
+  </div>
+
+  <div class="container">
+    <section class="main-content" id="discover">
+      <div class="search-panel">
+        <div class="ingredient-input-section">
+          <h3>🥘 What's in your kitchen?</h3>
+          <div class="input-group">
+            <input type="text" id="ingredientInput" class="ingredient-input" autocomplete="off" placeholder="Enter an ingredient (e.g., chicken, tomatoes...)" oninput="onIngredientInput(event)" onkeydown="onIngredientKeyDown(event)" onkeypress="handleIngredientKeyPress(event)">
+            <input type="number" id="quantityInput" class="quantity-input" placeholder="Qty" min="0" step="0.1" onkeypress="handleIngredientKeyPress(event)">
+            <select id="unitSelect" class="unit-select" onkeypress="handleIngredientKeyPress(event)">
+              <option value="pieces">pieces</option>
+              <option value="cups">cups</option>
+              <option value="lbs">lbs</option>
+              <option value="kg">kg</option>
+              <option value="oz">oz</option>
+              <option value="g">g</option>
+              <option value="ml">ml</option>
+              <option value="L">L</option>
+              <option value="tbsp">tbsp</option>
+              <option value="tsp">tsp</option>
+            </select>
+            <button class="add-ingredient-btn" onclick="addIngredient()">Add</button>
+          </div>
+          <div id="ingredientSuggestions" class="ingredient-suggestions" role="listbox" aria-label="Ingredient suggestions"></div>
+          </div>
+          <div class="auto-search-notice">
+            💡 Recipes will appear automatically as you add ingredients
+          </div>
+          <div id="ingredientsList" class="ingredients-list"></div>
+
+          <div class="active-filters-info" id="activeFilters">
+            <span style="color:#667eea; font-size:0.9rem;">Showing all recipes</span>
+          </div>
+
+          <div class="quick-filters">
+            <button class="filter-btn active" data-filter="all">
+              <span>🍽</span> All Recipes
+            </button>
+            <button class="filter-btn" data-filter="vegetarian">
+              <span>🥗</span> Vegetarian
+            </button>
+            <button class="filter-btn" data-filter="nonveg">
+              <span>🍗</span> Non-Veg
+            </button>
+            <button class="filter-btn" data-filter="quick">
+              <span>⚡</span> Quick (30min)
+            </button>
+            <button class="filter-btn" data-filter="easy">
+              <span>😊</span> Easy
+            </button>
+            <button class="filter-btn" data-filter="high_rating">
+              <span>⭐</span> Top Rated
+            </button>
+          </div>
+          
+          <div class="filter-instructions">
+            💡  Select multiple filters to combine results
+          </div>
+        </div>
+      </div>
+
+      <div class="recipes-section">
+        <div class="recipes-header">
+          <h3>🍽 Recipe Results</h3>
+          <div style="display:flex; align-items:center; gap:12px;">
+            <span id="recipeCount">0 recipes found</span>
+            <label for="pageSizeSelect" style="font-size:0.9rem; color:#4a5568;">Show:</label>
+            <select id="pageSizeSelect" style="padding:6px 8px; border-radius:8px; border:1px solid #e6edf3; background:white; font-weight:600;">
+              <option value="25">25</option>
+              <option value="50">50</option>
+              <option value="75">75</option>
+              <option value="100">100</option>
+              <option value="all">All</option>
+            </select>
+          </div>
+        </div>
+        <div id="recipesContainer" class="recipe-grid">
+          <div class="empty-state">
+            <div class="empty-state-icon">🔍</div>
+            <h4>Ready to cook something amazing?</h4>
+            <p>Add ingredients from your kitchen to discover personalized recipes!</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Modal for Recipe Details -->
+  <div id="recipeModal" class="modal-overlay" onclick="closeModalOnOverlay(event)">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closeModal()">✕</button>
+      <div id="modalRecipeContent"></div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>&copy; 2026 CookSmart. Made with ❤️</p>
+  </footer>
+
+  <script>
+    const API = "/api";
+
+    // State variables
+    let selectedIngredients = [];
+    let activeFilters = new Set(["all"]);
+    let allRecipes = [];
+    let currentOpenRecipe = null;
+    // Track viewed recipes for personalized recommendations
+    function trackRecipeView(recipeId) {
+      let viewedRecipes = JSON.parse(localStorage.getItem('viewedRecipes') || '[]');
+      
+      // Remove if already exists (to move to front)
+      viewedRecipes = viewedRecipes.filter(id => id !== recipeId);
+      
+      // Add to front (most recent)
+      viewedRecipes.unshift(recipeId);
+      
+      // Keep only last 10 viewed recipes
+      viewedRecipes = viewedRecipes.slice(0, 10);
+      
+      localStorage.setItem('viewedRecipes', JSON.stringify(viewedRecipes));
+    }
+
+    // UI Helpers
+    function renderIngredients() {
+      const list = document.getElementById("ingredientsList");
+      if (selectedIngredients.length === 0) {
+        list.innerHTML = '';
+        return;
+      }
+      list.innerHTML = selectedIngredients
+        .map(ing => {
+          const qtyText = ing.quantity > 0 ? `${ing.quantity} ${ing.unit}` : '';
+          const displayText = qtyText ? `${escapeHtml(ing.name)} (${qtyText})` : escapeHtml(ing.name);
+          return `<span class="tag">${displayText} <button onclick="removeIngredient('${escapeHtml(ing.name)}')">✖</button></span>`;
+        })
+        .join("");
+    }
+
+    // Ingredient Handlers
+    function handleIngredientKeyPress(event) {
+      if (event.key === "Enter") addIngredient();
+    }
+
+    function addIngredient(value) {
+      const input = document.getElementById("ingredientInput");
+      const quantityInput = document.getElementById("quantityInput");
+      const unitSelect = document.getElementById("unitSelect");
+      
+      let ingredientName = (typeof value === 'string' && value.trim() !== '') ? value.trim().toLowerCase() : input.value.trim().toLowerCase();
+      if (!ingredientName) return;
+
+      let quantity = parseFloat(quantityInput.value) || 0;
+      let unit = unitSelect.value;
+
+      // Create ingredient object
+      const ingredientObj = {
+        name: ingredientName,
+        quantity: quantity,
+        unit: unit
+      };
+
+      // Check for duplicates (same name)
+      const existingIndex = selectedIngredients.findIndex(ing => ing.name === ingredientName);
+      if (existingIndex >= 0) {
+        // Update existing ingredient
+        selectedIngredients[existingIndex] = ingredientObj;
+      } else {
+        // Add new ingredient
+        selectedIngredients.push(ingredientObj);
+      }
+
+      input.value = "";
+      quantityInput.value = "";
+      hideSuggestionBox();
+      renderIngredients();
+      fetchRecipes();
+    }
+
+    function removeIngredient(ingredientName) {
+      selectedIngredients = selectedIngredients.filter(ing => ing.name !== ingredientName);
+      renderIngredients();
+      fetchRecipes();
+    }
+
+    // Filter Buttons
+   document.querySelectorAll(".filter-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const filter = btn.getAttribute("data-filter");
+
+    if (filter === "all") {
+      // "All Recipes" clears everything else
+      activeFilters = new Set(["all"]);
+      document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+    } else {
+      // Remove "all" when selecting a specific filter
+      activeFilters.delete("all");
+      document.querySelector('.filter-btn[data-filter="all"]').classList.remove("active");
+
+      // Vegetarian & Non-Veg are mutually exclusive
+      if (filter === "vegetarian" && activeFilters.has("nonveg")) {
+        activeFilters.delete("nonveg");
+        document.querySelector('.filter-btn[data-filter="nonveg"]').classList.remove("active");
+      }
+      if (filter === "nonveg" && activeFilters.has("vegetarian")) {
+        activeFilters.delete("vegetarian");
+        document.querySelector('.filter-btn[data-filter="vegetarian"]').classList.remove("active");
+      }
+
+      if (activeFilters.has(filter)) {
+        // Deselect if already active
+        activeFilters.delete(filter);
+        btn.classList.remove("active");
+      } else {
+        // Add to active filters
+        activeFilters.add(filter);
+        btn.classList.add("active");
+      }
+
+      // If nothing is selected, fall back to "all"
+      if (activeFilters.size === 0) {
+        activeFilters = new Set(["all"]);
+        document.querySelector('.filter-btn[data-filter="all"]').classList.add("active");
+      }
+    }
+
+    updateActiveFilterDisplay();
+    fetchRecipes();
+  });
+});
+    function updateActiveFilterDisplay() {
+  const el = document.getElementById("activeFilters");
+
+  if (activeFilters.has("all")) {
+    el.innerHTML = `<span style="color:#667eea; font-size:0.9rem;">Showing all recipes</span>`;
+    return;
+  }
+
+  const textMap = {
+    vegetarian: "Vegetarian",
+    nonveg: "Non-Veg",
+    quick: "Quick (<30 min)",
+    easy: "Easy",
+    high_rating: "Top Rated (4+)"
+  };
+
+  const labels = [...activeFilters].map(f => textMap[f] || f).join(" + ");
+  el.innerHTML = `<span style="color:#667eea; font-size:0.9rem;">Filtering: ${labels}</span>`;
+}
+    // Update recipe count
+    function updateRecipeCount(count) {
+      document.getElementById("recipeCount").innerText = `${count} recipes found`;
+    }
+
+    // Fetch Recipes from Backend
+    async function fetchRecipes() {
+      try {
+        // Determine page size from selector
+        const pageSizeEl = document.getElementById('pageSizeSelect');
+        const pageSizeVal = pageSizeEl ? pageSizeEl.value : '25';
+
+        // Base URL and query params
+        const useSearch = selectedIngredients.length > 0;
+        const basePath = useSearch ? `${API}/search` : `${API}/recipes`;
+
+        // Helper to fetch a single page
+        const fetchPage = async (pageNum, limit) => {
+          let url = `${basePath}?page=${pageNum}&limit=${limit}`;
+          if (useSearch) {
+            const ing = selectedIngredients.map(ing => ing.name).join(",");
+            url = `${basePath}?ingredients=${encodeURIComponent(ing)}&mode=and&page=${pageNum}&limit=${limit}`;
+          }
+          const r = await fetch(url, { cache: 'no-store' });
+          if (!r.ok && r.status !== 304) throw new Error(`Fetch failed: ${r.status} ${r.statusText}`);
+          return r.json().catch(()=>null);
+        };
+
+        let data;
+        if (pageSizeVal === 'all') {
+          // Page through results until we have them all. Server enforces max limit 100 per request.
+          const results = [];
+          let page = 1;
+          const perPage = 100; // server-side cap
+          let total = 0;
+          while (true) {
+            const pageData = await fetchPage(page, perPage);
+            if (!pageData) break;
+            const pageResults = Array.isArray(pageData.results) ? pageData.results : (Array.isArray(pageData) ? pageData : (pageData && pageData.documents ? pageData.documents : []));
+            if (page === 1) {
+              total = typeof pageData.total === 'number' ? pageData.total : (Array.isArray(pageData) ? pageData.length : results.length + pageResults.length);
+            }
+            results.push(...pageResults);
+            // stop if we received less than perPage or we've fetched all
+            if (pageResults.length < perPage || results.length >= total) break;
+            page += 1;
+          }
+          data = { results, total };
+        } else {
+          // Normal single-page fetch with chosen limit
+          const lim = Math.max(1, Math.min(100, parseInt(pageSizeVal, 10) || 25));
+          data = await fetchPage(1, lim);
+        }
+
+        
+        console.log('API response for fetchRecipes', data);
+
+  console.log('API response for', basePath, 'pageSize:', pageSizeVal, data);
+
+        let recipesList = [];
+        let totalCount = 0;
+
+          if (Array.isArray(data)) {
+            recipesList = data;
+            totalCount = data.length;
+        } else if (data && Array.isArray(data.results)) {
+          recipesList = data.results;
+          totalCount = typeof data.total === 'number' ? data.total : data.results.length;
+        } else if (data && Array.isArray(data.documents)) {
+          recipesList = data.documents;
+          totalCount = typeof data.total === 'number' ? data.total : data.documents.length;
+        } else {
+          recipesList = [];
+          totalCount = 0;
+        }
+
+        const filtered = applyFilters(recipesList);
+        allRecipes = filtered;
+        // If user is logged in but we don't yet have saved/liked IDs, try to fetch them before rendering
+        const user = JSON.parse(localStorage.getItem('user') || 'null');
+        if (user && user._id && (savedRecipeIds.size === 0 && likedRecipeIds.size === 0)) {
+          try {
+            const [savedRes, likesRes] = await Promise.all([
+              fetch(`${API}/users/${user._id}/saved`),
+              fetch(`${API}/users/${user._id}/likes`)
+            ]);
+            if (savedRes && savedRes.ok) {
+              const d = await savedRes.json();
+              if (Array.isArray(d.savedIds)) {
+                savedRecipeIds = new Set(d.savedIds.map(String));
+              } else {
+                const list = Array.isArray(d.saved) ? d.saved : [];
+                savedRecipeIds = new Set(list.map(r => String(r._id || r.id || r)));
+              }
+            }
+            if (likesRes && likesRes.ok) {
+              const d2 = await likesRes.json();
+              if (Array.isArray(d2.likedIds)) {
+                likedRecipeIds = new Set(d2.likedIds.map(String));
+              } else {
+                const list2 = Array.isArray(d2.liked) ? d2.liked : [];
+                likedRecipeIds = new Set(list2.map(r => String(r._id || r.id || r)));
+              }
+            }
+          } catch (e) {
+            console.warn('Fallback fetch of saved/liked IDs failed', e);
+          }
+        }
+
+        // Debug output to diagnose missing liked markers
+        try {
+          console.debug('likedRecipeIds (sample)', Array.from(likedRecipeIds).slice(0,20));
+          console.debug('first recipe ids', (recipesList || []).slice(0,10).map(r => (r && (r._id || r.id)) || r));
+        } catch (e) { console.warn('Debug logging failed', e); }
+
+        renderRecipes(filtered);
+        updateRecipeCount(filtered.length || totalCount);
+
+      } catch (err) {
+        console.error("Error fetching recipes:", err);
+        const container = document.getElementById("recipesContainer");
+        container.innerHTML = `<div class="empty-state"><div class="empty-state-icon">⚠</div><h4>Error loading recipes</h4><p>${escapeHtml(err.message || String(err))}</p></div>`;
+        updateRecipeCount(0);
+      }
+    }
+
+    function applyFilters(recipes) {
+  if (activeFilters.has("all") || activeFilters.size === 0) return recipes;
+
+  return recipes.filter(r => {
+    // Recipe must pass EVERY active filter
+    for (const filter of activeFilters) {
+      if (filter === "vegetarian") {
+        if (!(r.isVegetarian === true || r.type === "veg" || (r.tags?.includes('vegetarian'))))
+          return false;
+      }
+      if (filter === "nonveg") {
+        if (!(r.isVegetarian === false || r.type === "nonveg" || (r.tags?.includes('nonveg'))))
+          return false;
+      }
+      if (filter === "quick") {
+        const t = r.cookingTime ?? r.time;
+        if (!(typeof t === "number" && t <= 30)) return false;
+      }
+      if (filter === "easy") {
+        if (!(String(r.difficulty || "").toLowerCase() === "easy")) return false;
+      }
+      if (filter === "high_rating") {
+        const rating = typeof r.rating === "number" ? r.rating : parseFloat(r.rating) || 0;
+        if (!(rating >= 4)) return false;
+      }
+    }
+    return true;
+  });
+}
+
+    // Helper functions for recipe states
+  // savedRecipeIds / likedRecipeIds are populated from server for logged-in users to avoid cross-account leaks
+  let savedRecipeIds = new Set();
+  let likedRecipeIds = new Set();
+
+    function normalizeId(val) {
+      // Accept objects with _id, objects with id, ObjectId instances, or plain strings/numbers
+      if (!val && val !== 0) return '';
+      if (typeof val === 'string' || typeof val === 'number') return String(val);
+      if (val._id) return String(val._id);
+      if (val.id) return String(val.id);
+      try { return String(val); } catch (e) { return '' }
+    }
+
+    function isRecipeSaved(recipe) {
+      const user = JSON.parse(localStorage.getItem('user') || 'null');
+      if (user && user._id) {
+        return savedRecipeIds.has(String(recipe._id || recipe.id));
+      }
+      // fallback for guests uses localStorage (guest-only saves)
+      const savedRecipes = JSON.parse(localStorage.getItem('savedRecipes') || '[]');
+      return savedRecipes.some(r => (r._id || r.id) === (recipe._id || recipe.id));
+    }
+
+    function isRecipeLiked(recipe) {
+      const user = JSON.parse(localStorage.getItem('user') || 'null');
+      const rid = normalizeId(recipe._id || recipe.id || recipe);
+      if (user && user._id) {
+        // primary check: server-provided set
+        if (likedRecipeIds.has(rid)) return true;
+        // defensive: sometimes the server returns object shapes that don't match; try matching by loose equality
+        for (const x of likedRecipeIds) {
+          if (!x) continue;
+          if (String(x) === rid) return true;
+        }
+        return false;
+      }
+      const likes = JSON.parse(localStorage.getItem('likedRecipes') || '[]');
+      return likes.some(r => normalizeId(r._id || r.id || r) === rid);
+    }
+
+    // Render Recipe Cards
+    function renderRecipes(list) {
+      const container = document.getElementById("recipesContainer");
+
+      if (!Array.isArray(list) || list.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-state-icon">😕</div>
+            <h4>No recipes found</h4>
+            <p>Try adding different ingredients!</p>
+          </div>`;
+        return;
+      }
+
+      container.innerHTML = list.map((r, index) => {
+        // allow absolute image urls or simple filename fallback
+        const imageFile = r.image || r.imageUrl;
+        const imageUrl = imageFile ? (imageFile.startsWith('http') ? escapeHtml(imageFile) : `images/${escapeHtml(imageFile)}`) : null;
+
+        const timeVal = (r.cookingTime != null ? r.cookingTime : r.time);
+        const timeDisplay = (timeVal != null && timeVal !== "") ? timeVal : "N/A";
+
+        const ingredientsText = Array.isArray(r.ingredients) ? r.ingredients.join(", ") : String(r.ingredients || "");
+
+        return `
+        <div class="recipe-card" data-index="${index}">
+          ${imageUrl ? `
+            <img 
+              src="${imageUrl}" 
+              alt="${escapeHtml(r.name || r.title || "Recipe image")}" 
+              class="recipe-image"
+              onerror="this.style.display='none';"
+            />
+          ` : ""}
+
+          <h3>${escapeHtml(r.name || r.title || "Untitled Recipe")}</h3>
+          <p>${escapeHtml(r.description || "")}</p>
+          <p><strong>Ingredients:</strong> ${escapeHtml(ingredientsText)}</p>
+          <p><strong>Time:</strong> ${escapeHtml(timeDisplay)} min</p>
+          <p><strong>Difficulty:</strong> ${escapeHtml(r.difficulty || "Unknown")}</p>
+          <p><strong>Rating:</strong> ⭐ ${escapeHtml(r.rating != null ? r.rating : "N/A")}</p>
+          
+          <!-- Recipe Options Section -->
+          <div class="recipe-options">
+            <button class="option-btn save-btn ${isRecipeSaved(r) ? 'active' : ''}" onclick="saveRecipe(${index})" title="${isRecipeSaved(r) ? 'Remove from Saved' : 'Save Recipe'}" aria-label="Save recipe; hover to remove">
+              <span class="option-icon">${isRecipeSaved(r) ? '💾✓' : '💾'}</span>
+              ${isRecipeSaved(r) ? `<span class="option-text saved-text">Saved</span><span class="option-text remove-text">Remove</span>` : `<span class="option-text">Save</span>`}
+            </button>
+            <button class="option-btn share-btn" onclick="shareRecipe(${index})" title="Share Recipe">
+              <span class="option-icon">📤</span>
+              <span class="option-text">Share</span>
+            </button>
+            <button class="option-btn like-btn ${isRecipeLiked(r) ? 'active' : ''}" onclick="toggleLike(${index})" title="${isRecipeLiked(r) ? 'Unlike Recipe' : 'Like Recipe'}">
+              <span class="option-icon">${isRecipeLiked(r) ? '👍' : '👍🏻'}</span>
+              <span class="option-text">${isRecipeLiked(r) ? 'Liked' : 'Like'}</span>
+            </button>
+          </div>
+          
+          <button class="more-details-btn" onclick="openRecipeModal(${index})">
+            More Details
+          </button>
+        </div>
+        `;
+      }).join("");
+    }
+
+    // Open Modal with Recipe Details
+    function openRecipeModal(index) {
+      const recipe = allRecipes[index];
+      if (!recipe) return;
+        currentOpenRecipe = recipe;  
+        console.log('Opened recipe _id:', recipe._id); 
+      // Track this recipe view for personalization
+      trackRecipeView(recipe._id || recipe.id);
+
+      const imageFile = recipe.image || recipe.imageUrl;
+      const imageUrl = imageFile ? (imageFile.startsWith('http') ? escapeHtml(imageFile) : `images/${escapeHtml(imageFile)}`) : null;
+
+      const timeVal = (recipe.cookingTime != null ? recipe.cookingTime : recipe.time);
+      const timeDisplay = (timeVal != null && timeVal !== "") ? timeVal : "N/A";
+
+      let nutritionHtml = "";
+if (recipe.nutrition && typeof recipe.nutrition === "object") {
+  const items = Object.entries(recipe.nutrition)
+    .map(([key, value]) => `
+      <li><strong>${escapeHtml(capitalize(key))}:</strong> ${escapeHtml(value)}</li>
+    `)
+    .join("");
+
+  if (items) {
+    nutritionHtml = `
+      <div class="modal-nutrition-dropdown">
+        <button class="nutrition-dropdown-btn" onclick="toggleNutrition(event)">
+          <span>Nutrition</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="modal-nutrition-content">
+          <ul class="modal-nutrition-list">
+            ${items}
+          </ul>
+        </div>
+      </div>
+    `;
+  }
+}
+
+      const ingredientsText = Array.isArray(recipe.ingredients) ? recipe.ingredients.join(", ") : String(recipe.ingredients || "");
+
+      const modalContent = `
+        ${imageUrl ? `
+          <img 
+            src="${imageUrl}" 
+            alt="${escapeHtml(recipe.name || recipe.title || "Recipe image")}" 
+            class="modal-recipe-image"
+            onerror="this.style.display='none';"
+          />
+        ` : ""}
+
+        <h2 class="modal-recipe-title">${escapeHtml(recipe.name || recipe.title || "Untitled Recipe")}</h2>
+        
+        <p class="modal-recipe-description">${escapeHtml(recipe.description || "No description available.")}</p>
+
+        <div class="modal-ingredients-section">
+          <strong>Ingredients:</strong> 
+          <span>${escapeHtml(ingredientsText)}</span>
+        </div>
+
+        <div class="modal-details-row">
+         <div class="modal-detail-item">
+           <strong>Servings</strong>
+           <span>${recipe.servings || 4}</span>
+         </div>
+         
+         <div class="modal-detail-item">
+           <strong>Time</strong>
+           <span>${escapeHtml(timeDisplay)} min</span>
+         </div>
+
+         <div class="modal-detail-item">
+           <strong>Difficulty</strong>
+           <span>${escapeHtml(recipe.difficulty || "Unknown")}</span>
+         </div>
+
+         <div class="modal-detail-item">
+           <strong>Rating</strong>
+           <span>⭐ ${escapeHtml(recipe.rating != null ? recipe.rating : "N/A")}</span>
+         </div>
+        </div>
+
+        <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:16px; width:100%">
+  <a href="https://www.youtube.com/results?search_query=${encodeURIComponent((recipe.name || recipe.title || 'recipe') + ' recipe')}" 
+     target="_blank" 
+     rel="noopener noreferrer" 
+     class="modal-youtube-link"
+     style="margin-top:0; flex:1; text-align:center;">
+    🎥 Watch Recipe on YouTube
+  </a>
+
+  <a href="https://www.google.com/search?q=${encodeURIComponent((recipe.name || recipe.title || 'recipe') + ' recipe')}" 
+     target="_blank" 
+     rel="noopener noreferrer" 
+     class="modal-youtube-link"
+     style="margin-top:0; background:#4285f4; box-shadow:0 4px 12px rgba(66,133,244,0.3);">
+    🔍 Search on Google
+  </a>
+</div>
+
+        ${nutritionHtml}
+      `;
+
+      document.getElementById("modalRecipeContent").innerHTML = modalContent;
+      document.getElementById("recipeModal").classList.add("active");
+      document.body.style.overflow = "hidden";
+    }
+
+function closeModal() {
+  document.getElementById("recipeModal").classList.remove("active");
+  document.body.style.overflow = "auto";
+
+  if (currentOpenRecipe) {
+    // ✅ Try all possible id fields
+    const recipeId = currentOpenRecipe._id 
+      || currentOpenRecipe.id 
+      || null;
+
+    console.log('Recipe ID for feedback:', recipeId); // debug
+
+    if (recipeId && String(recipeId).length === 24) {
+      feedbackModal.openModal(
+        String(recipeId),
+        currentOpenRecipe.name || currentOpenRecipe.title || '',
+        currentOpenRecipe.image ? `images/${currentOpenRecipe.image}` : ''
+      );
+    }
+    currentOpenRecipe = null;
+  }
+}
+
+
+    // Close modal when clicking on overlay
+    function closeModalOnOverlay(event) {
+      if (event.target.id === "recipeModal") {
+        closeModal();
+      }
+    }
+
+    // Close modal with Escape key
+    document.addEventListener("keydown", function(e) {
+      if (e.key === "Escape") {
+        closeModal();
+      }
+    });
+
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    function capitalize(str) {
+      const s = String(str);
+      return s.charAt(0).toUpperCase() + s.slice(1);
+    }
+
+    // Ingredient autocomplete
+    let _suggestionTimer = null;
+    let _suggestionIndex = -1;
+
+    function onIngredientInput(e){
+      const v = e.target.value.trim();
+      const box = document.getElementById('ingredientSuggestions');
+      if (_suggestionTimer) clearTimeout(_suggestionTimer);
+      _suggestionTimer = setTimeout(async ()=>{
+        if (!v || v.length < 1){ 
+          box.style.display='none'; 
+          box.innerHTML=''; 
+          _suggestionIndex = -1;
+          return; 
+        }
+        try{
+          const res = await fetch(`${API}/search/ingredients?s=${encodeURIComponent(v)}`);
+          if (!res.ok) { 
+            box.style.display='none'; 
+            box.innerHTML=''; 
+            _suggestionIndex = -1;
+            return; 
+          }
+          const data = await res.json();
+          const list = Array.isArray(data.suggestions) ? data.suggestions : (Array.isArray(data) ? data : (data && Array.isArray(data.items) ? data.items : []));
+          if (!list || list.length === 0){ 
+            box.style.display='none'; 
+            box.innerHTML=''; 
+            _suggestionIndex = -1;
+            return; 
+          }
+          // render suggestions
+          box.innerHTML = list.map((s, i)=>`<div class="item" role="option" tabindex="0" data-value="${escapeHtml(s)}">${escapeHtml(s)}</div>`).join('');
+          box.style.display = 'block';
+          _suggestionIndex = -1;
+        }catch(err){ 
+          console.error('Suggest error',err); 
+          box.style.display='none'; 
+          box.innerHTML=''; 
+          _suggestionIndex = -1;
+        }
+      }, 200);
+    }
+
+    function hideSuggestionBox(){
+      const box = document.getElementById('ingredientSuggestions');
+      box.style.display='none';
+      box.innerHTML = '';
+      _suggestionIndex = -1;
+    }
+
+    function showSuggestionBox(){
+      const box = document.getElementById('ingredientSuggestions');
+      if (box && box.children.length > 0) box.style.display = 'block';
+    }
+
+    function onIngredientKeyDown(e){
+      const box = document.getElementById('ingredientSuggestions');
+      const items = box ? Array.from(box.querySelectorAll('.item')) : [];
+      if (!items || items.length === 0) {
+        if (e.key === 'ArrowDown' || e.key === 'ArrowUp') e.preventDefault();
+        return;
+      }
+
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        _suggestionIndex = Math.min(_suggestionIndex + 1, items.length - 1);
+        updateSuggestionActive(items);
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        _suggestionIndex = Math.max(_suggestionIndex - 1, 0);
+        updateSuggestionActive(items);
+      } else if (e.key === 'Enter') {
+        if (_suggestionIndex >= 0 && items[_suggestionIndex]) {
+          e.preventDefault();
+          const val = items[_suggestionIndex].getAttribute('data-value');
+          addIngredient(val);
+        } else {
+          // let enter add the typed ingredient
+          // allowed by handleIngredientKeyPress
+        }
+      } else if (e.key === 'Escape') {
+        hideSuggestionBox();
+      }
+    }
+
+    function updateSuggestionActive(items){
+      items.forEach((it, i) => {
+        if (i === _suggestionIndex) {
+          it.classList.add('active');
+          it.scrollIntoView({block: 'nearest'});
+          // also set the input value visually (but not add to selected list)
+          const input = document.getElementById('ingredientInput');
+          input.value = it.getAttribute('data-value');
+        } else {
+          it.classList.remove('active');
+        }
+      });
+    }
+
+    // Click/select handlers for suggestion items (delegated)
+    document.addEventListener('click', (ev) => {
+      const target = ev.target;
+      const box = document.getElementById('ingredientSuggestions');
+
+      // clicking suggestion item
+      if (target && target.classList && target.classList.contains('item')) {
+        const val = target.getAttribute('data-value');
+        if (val) addIngredient(val);
+        return;
+      }
+
+      // hide suggestions when clicking outside input/suggestions
+      const input = document.getElementById('ingredientInput');
+      if (!box.contains(target) && target !== input) {
+        hideSuggestionBox();
+      }
+    });
+
+    // keyboard access on suggestion items (Enter to select)
+    document.getElementById('ingredientSuggestions').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        const item = e.target.closest('.item');
+        if (item) {
+          const val = item.getAttribute('data-value');
+          if (val) addIngredient(val);
+        }
+      }
+    });
+
+    // initial fetch on page load (optional - loads all recipes)
+    document.addEventListener('DOMContentLoaded', () => {
+      updateActiveFilterDisplay();
+      // Wire page size selector
+      const pageSizeEl = document.getElementById('pageSizeSelect');
+      if (pageSizeEl) {
+        pageSizeEl.value = '25';
+        pageSizeEl.addEventListener('change', () => {
+          fetchRecipes();
+        });
+      }
+      // If logged-in, fetch saved recipe IDs for this user
+      const user = JSON.parse(localStorage.getItem('user') || 'null');
+      if (user && user._id) {
+        // fetch saved and liked IDs concurrently
+        Promise.all([
+          fetch(`/api/users/${user._id}/saved`).catch(err => { console.warn('Saved fetch failed', err); return null; }),
+          fetch(`/api/users/${user._id}/likes`).catch(err => { console.warn('Likes fetch failed', err); return null; })
+        ]).then(async ([savedRes, likesRes]) => {
+          if (savedRes && savedRes.ok) {
+            const data = await savedRes.json();
+            const list = Array.isArray(data.saved) ? data.saved : (Array.isArray(data) ? data : []);
+            savedRecipeIds = new Set(list.map(r => String(r._id || r.id || r)));
+          }
+          if (likesRes && likesRes.ok) {
+            const data2 = await likesRes.json();
+            const list2 = Array.isArray(data2.liked) ? data2.liked : (Array.isArray(data2) ? data2 : []);
+            likedRecipeIds = new Set(list2.map(r => String(r._id || r.id || r)));
+          }
+          // Now fetch recipes and render with correct saved/liked state
+          fetchRecipes();
+        }).catch(err => {
+          console.warn('Could not fetch saved/liked IDs', err);
+          fetchRecipes();
+        });
+    
+  } else {
+        fetchRecipes();
+      }
+    });
+
+    function toggleNutrition(event) {
+  event.preventDefault();
+  const btn = event.currentTarget;
+  const content = btn.nextElementSibling;
+  
+  btn.classList.toggle('active');
+  content.classList.toggle('show');
+}
+
+    // Recipe Options Functions
+    function saveRecipe(index) {
+      const recipe = allRecipes[index];
+      if (!recipe) return;
+      // If logged in, call server to toggle save; otherwise fall back to localStorage
+      const user = JSON.parse(localStorage.getItem('user') || 'null');
+      if (user && user._id) {
+        // attempt server call
+        fetch(`/api/recipes/${recipe._id || recipe.id}/save`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ userId: user._id })
+        }).then(async (res) => {
+          if (!res.ok) {
+            const err = await res.json().catch(()=>({ error: 'Unknown' }));
+            showNotification('Could not update saved recipes on server', 'error');
+            console.error('Save API error', err);
+            return;
+          }
+          const data = await res.json();
+          showNotification(data.saved ? 'Recipe saved successfully!' : 'Recipe removed from saved recipes', 'success');
+          // Update in-memory saved ID set and re-render; do NOT persist to shared localStorage for logged-in users
+          if (data.saved) {
+            savedRecipeIds.add(String(recipe._id || recipe.id));
+          } else {
+            savedRecipeIds.delete(String(recipe._id || recipe.id));
+          }
+          renderRecipes(allRecipes);
+        }).catch(err => {
+          console.error('Save API network error', err);
+          showNotification('Network error while saving recipe', 'error');
+        });
+      } else {
+        // Get existing saved recipes from localStorage
+        let savedRecipes = JSON.parse(localStorage.getItem('savedRecipes') || '[]');
+        
+        // Check if already saved
+        const isAlreadySaved = savedRecipes.some(r => (r._id || r.id) === (recipe._id || recipe.id));
+        
+        if (isAlreadySaved) {
+          // Remove from saved
+          savedRecipes = savedRecipes.filter(r => (r._id || r.id) !== (recipe._id || recipe.id));
+          showNotification('Recipe removed from saved recipes', 'info');
+        } else {
+          // Add to saved
+          savedRecipes.push(recipe);
+          showNotification('Recipe saved successfully!', 'success');
+        }
+        
+  // Save back to localStorage (guest-only cache)
+  localStorage.setItem('savedRecipes', JSON.stringify(savedRecipes));
+  // Re-render recipes to update button states
+  renderRecipes(allRecipes);
+      }
+    }
+
+    function shareRecipe(index) {
+      const recipe = allRecipes[index];
+      if (!recipe) return;
+
+      const recipeName = recipe.name || recipe.title || 'Recipe';
+      const shareText = `Check out this recipe: ${recipeName}`;
+      const shareUrl = window.location.href;
+
+      if (navigator.share) {
+        // Use Web Share API if available
+        navigator.share({
+          title: recipeName,
+          text: shareText,
+          url: shareUrl
+        });
+      } else {
+        // Fallback to clipboard
+        const shareData = `${shareText}\n${shareUrl}`;
+        navigator.clipboard.writeText(shareData).then(() => {
+          showNotification('Recipe link copied to clipboard!', 'success');
+        }).catch(() => {
+          showNotification('Unable to share recipe', 'error');
+        });
+      }
+    }
+
+    function toggleLike(index) {
+      const recipe = allRecipes[index];
+      if (!recipe) return;
+      const user = JSON.parse(localStorage.getItem('user') || 'null');
+      if (user && user._id) {
+        // Call server to toggle like and update in-memory set
+        fetch(`/api/recipes/${recipe._id || recipe.id}/like`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ userId: user._id })
+        }).then(async (res) => {
+          if (!res.ok) {
+            const err = await res.json().catch(()=>({ error: 'Unknown' }));
+            showNotification('Could not update likes on server', 'error');
+            console.error('Like API error', err);
+            return;
+          }
+          const data = await res.json();
+          // data.liked indicates the new liked state
+          if (data.liked) {
+            likedRecipeIds.add(String(recipe._id || recipe.id));
+            showNotification('Recipe liked! ❤️', 'success');
+          } else {
+            likedRecipeIds.delete(String(recipe._id || recipe.id));
+            showNotification('Removed from likes', 'info');
+          }
+          // update UI
+          renderRecipes(allRecipes);
+        }).catch(err => {
+          console.error('Like API network error', err);
+          showNotification('Network error while liking recipe', 'error');
+        });
+        return;
+      }
+
+      // Guest fallback: localStorage-only
+      let likes = JSON.parse(localStorage.getItem('likedRecipes') || '[]');
+      const isLiked = likes.some(r => (r._id || r.id) === (recipe._id || recipe.id));
+      if (isLiked) {
+        likes = likes.filter(r => (r._id || r.id) !== (recipe._id || recipe.id));
+        showNotification('Removed from likes', 'info');
+      } else {
+        likes.push(recipe);
+        showNotification('Recipe liked! ❤️', 'success');
+      }
+      localStorage.setItem('likedRecipes', JSON.stringify(likes));
+      renderRecipes(allRecipes);
+    }
+
+    function showNotification(message, type = 'info') {
+      // Create notification element
+      const notification = document.createElement('div');
+      notification.className = `notification notification-${type}`;
+      notification.textContent = message;
+      
+      // Add to page
+      document.body.appendChild(notification);
+      
+      // Show with animation
+      setTimeout(() => notification.classList.add('show'), 10);
+      
+      // Remove after 3 seconds
+      setTimeout(() => {
+        notification.classList.remove('show');
+        setTimeout(() => document.body.removeChild(notification), 300);
+      }, 3000);
+    }
+function toggleProfileDropdown(e) {
+  e.stopPropagation();
+  document.getElementById('profileDropdown').classList.toggle('active');
+}
+
+
+  </script>
+<!-- Feedback Modal -->
+<!-- Feedback Modal -->
+<div id="feedback-modal-overlay" class="feedback-overlay">
+  <div class="feedback-modal">
+    <button class="feedback-close">&times;</button>
+
+    <div class="feedback-recipe-info">
+      <img id="feedback-recipe-img" src="" alt="">
+      <h3 id="feedback-recipe-name"></h3>
+    </div>
+
+    <p class="feedback-question">How would you rate this recipe?</p>
+
+    <div class="star-rating">
+      <span class="star" data-value="1">★</span>
+      <span class="star" data-value="2">★</span>
+      <span class="star" data-value="3">★</span>
+      <span class="star" data-value="4">★</span>
+      <span class="star" data-value="5">★</span>
+    </div>
+
+    <p class="star-label" id="star-label">Click a star to rate</p>
+
+    <!-- ✅ NEW - Review section (only for logged in users) -->
+    <div id="review-section" style="display:none;">
+      <div class="feedback-review-section">
+        <label for="review-textarea">Write a Review (optional)</label>
+        <textarea 
+          id="review-textarea" 
+          class="feedback-review-textarea" 
+          placeholder="Share your experience with this recipe..."
+          maxlength="300"
+          oninput="updateCharCount(this)"
+        ></textarea>
+        <div class="feedback-char-count"><span id="char-count">0</span>/300</div>
+      </div>
+    </div>
+
+    <!-- ✅ Show message if not logged in -->
+    <div id="login-required-msg" style="display:none;">
+      <div class="login-required-msg">
+        🔒 <a href="#" onclick="window.loginModal.openModal()">Login</a> to write a review
+      </div>
+    </div>
+
+    <button class="feedback-submit-btn" id="feedback-submit" disabled>
+      Submit Rating
+    </button>
+
+    <div class="feedback-success" id="feedback-success">
+      🎉 Thanks for your feedback!
+    </div>
+
+    <!-- ✅ NEW - Reviews list -->
+    <div class="reviews-list" id="reviews-list">
+      <h4>💬 Reviews</h4>
+      <div id="reviews-content">
+        <p class="no-reviews">No reviews yet. Be the first!</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+<script>
+function toggleMenu() {
+  const menu = document.getElementById('navbar-menu');
+  const hamburger = document.getElementById('hamburger');
+  menu.classList.toggle('open');
+  hamburger.classList.toggle('open');
+}
+
+// Close menu when clicking outside
+document.addEventListener('click', function(e) {
+  const menu = document.getElementById('navbar-menu');
+  const hamburger = document.getElementById('hamburger');
+  if (!menu.contains(e.target) && !hamburger.contains(e.target)) {
+    menu.classList.remove('open');
+    hamburger.classList.remove('open');
+  }
+});
+
+// Close menu when a link is clicked
+document.querySelectorAll('.navbar-menu a').forEach(link => {
+  link.addEventListener('click', () => {
+    document.getElementById('navbar-menu').classList.remove('open');
+    document.getElementById('hamburger').classList.remove('open');
+  });
+});
+</script>
+</body>
+</html>

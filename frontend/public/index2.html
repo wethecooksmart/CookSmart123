@@ -1,0 +1,36 @@
+<!-- index.html -->
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>CookSmart - Test</title></head>
+<body>
+  <h1>Recipes</h1>
+  <div id="list">Loading…</div>
+
+  <script>
+    const API = 'http://localhost:5000'; // backend URL while developing
+
+    async function getRecipes() {
+      try {
+        const res = await fetch(`${API}/recipes`);
+        if (!res.ok) throw new Error('Server error ' + res.status);
+        const recipes = await res.json();
+        const el = document.getElementById('list');
+        if (!recipes.length) el.innerText = 'No recipes yet';
+        else {
+          el.innerHTML = recipes.map(r => `
+            <div>
+              <h3>${r.title || 'Untitled'}</h3>
+              <p>${r.description || ''}</p>
+            </div>
+          `).join('');
+        }
+      } catch (err) {
+        document.getElementById('list').innerText = 'Error: ' + err.message;
+        console.error(err);
+      }
+    }
+
+    getRecipes();
+  </script>
+</body>
+</html>

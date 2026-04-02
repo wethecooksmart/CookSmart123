@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>CookSmart - Personal Details</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="login-modal.css" />
+  <style>
+    /* Background for personal details page - uses images/personal-bg.jpg (place the attached file at this path) */
+    .profile-page-bg {
+      /* Use the provided image file - space in filename encoded as %20 */
+      background-image: url('images/Firefly_Gemini%20Flash.png');
+  background-size: cover;
+  /* shift image further right */
+  background-position: calc(50% + 520px) center;
+      background-repeat: no-repeat;
+      /* subtle overlay to keep text readable */
+      position: relative;
+    }
+    .profile-page-bg::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(255,255,255,0.6); /* light veil */
+      pointer-events: none;
+    }
+    .profile-page-bg > .profile-panel { position: relative; z-index: 2; }
+    /* nudge the entire profile panel (avatar + form) slightly to the left */
+    .profile-panel { transform: translateX(-240px); }
+    /* disable the nudge on small screens to avoid horizontal overflow */
+    @media (max-width: 720px) {
+      .profile-panel { transform: none; }
+    }
+  </style>
+  <script src="script.js" defer></script>
+  <script src="login-modal.js" defer></script>
+</head>
+<body class="page-with-sticky-footer">
+  <nav class="navbar">
+    <div class="navbar-container">
+      <a href="index.html" class="navbar-brand"><img src="images/logo.jpg" style="height:48px; width:160px; object-fit:cover; border-radius:6px;"></a>
+      <button class="hamburger" id="hamburger" onclick="toggleMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <ul class="navbar-menu" id="navbar-menu">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="discover.html" onclick="return LoginModal.requireLogin(event)">Discover</a></li>
+        <li><a href="trending.html" onclick="return LoginModal.requireLogin(event)">Trending</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="profile-page-bg">
+    <div class="profile-panel">
+  <div class="profile-card">
+    <div style="position:relative; display:inline-block;">
+      <img id="profileAvatar" src="images/image-avtar.jpg" alt="avatar" class="avatar" />
+      <button id="editAvatarBtn" title="Change avatar" style="position:absolute; right:6px; bottom:6px; border-radius:8px; padding:6px; background:white; border:1px solid rgba(0,0,0,0.06); cursor:pointer;">✎</button>
+    </div>
+    <input id="avatarInput" type="file" accept="image/*" style="display:none" />
+    <h3 id="profileName">Your name</h3>
+    <div class="contact-links" style="margin-top:12px;">
+    </div>
+  </div>
+
+      <div class="profile-form-card">
+        <h1>Personal Details</h1>
+        <p class="lead">Update your name, email and contact number. </p>
+
+        <form id="personalForm">
+          <!-- Full name removed per request -->
+
+          <div class="form-group">
+            <label for="email">Email</label>
+            <div class="input-with-verify">
+              <input id="email" name="email" type="email" readonly />
+              <span id="verifyEmailBtn" class="verify-text">Verify</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="gender">Gender</label>
+            <select id="gender" name="gender">
+              <option value="">Prefer not to say</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="dob">Date of birth</label>
+            <input id="dob" name="dob" type="date" readonly />
+          </div>
+
+          <div class="form-group">
+            <label for="contactNumber">Contact number</label>
+            <div class="input-with-verify">
+              <input id="contactNumber" name="contactNumber" type="text" placeholder="10 digit number" readonly />
+              <span id="verifyContactBtn" class="verify-text">Verify</span>
+            </div>
+            <div id="contactError" style="display:none;color:#9b2c2c;font-size:13px;margin-top:6px;"></div>
+          </div>
+
+          <!-- Account created input removed; showing month and year below -->
+
+          <div class="form-actions" style="margin-top:14px;">
+            <button id="editPersonal" class="btn" type="button">Edit</button>
+            <button id="cancelPersonal" class="btn" type="button" style="display:none">Cancel</button>
+            <button id="savePersonal" class="btn" type="button" style="display:none" disabled>Save</button>
+          </div>
+        </form>
+
+        <div id="otpSection" style="display:none;margin-top:12px;">
+          <p id="otpMessage" style="margin:0 0 8px 0;color:#374151;font-size:14px"></p>
+          <div style="display:flex;gap:8px;align-items:center;">
+            <input id="otpInput" type="text" placeholder="Enter OTP" style="padding:8px;border:1px solid #ddd;border-radius:6px;" />
+            <button id="verifyOtp" class="btn">Verify OTP</button>
+            <button id="resendOtp" class="btn">Resend</button>
+          </div>
+        </div>
+
+        <div id="personalMessage" style="margin-top:12px;display:none;padding:10px;border-radius:8px;"></div>
+  <div id="memberSince" style="margin-top:8px;color:#6b7280;font-size:13px;text-align:center;"></div>
+      </div>
+    </div>
+  </main>
+
+  <script src="personal.js" defer></script>
+  <!-- Footer -->
+  <footer class="footer">
+    <p>&copy; 2026 CookSmart. Made with ❤️</p>
+  </footer>
+</body>
+</html>

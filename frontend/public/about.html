@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CookSmart - About</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="login-modal.css">
+  <script src="login-modal.js" defer></script>
+
+ 
+  <style>
+
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body.bg-discover {
+      background-image: linear-gradient(rgba(255,250,240,0.85), rgba(243,248,255,0.85)), url('https://static.vecteezy.com/system/resources/previews/008/660/558/non_2x/organic-food-background-hand-drawn-concept-free-vector.jpg');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+    }
+    /* Hamburger Button */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  z-index: 1001;
+}
+
+.hamburger span {
+  display: block;
+  width: 25px;
+  height: 3px;
+  background: #764ba2;
+  border-radius: 3px;
+  transition: all 0.3s ease;
+}
+
+/* Hamburger animation when open */
+.hamburger.open span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 6px);
+}
+.hamburger.open span:nth-child(2) {
+  opacity: 0;
+}
+.hamburger.open span:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -6px);
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+  .hamburger {
+    display: flex; /* ✅ show on mobile */
+  }
+
+  .navbar-menu {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 70px;
+    left: 0;
+    right: 0;
+    background: white;
+    padding: 16px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+    z-index: 1000;
+    gap: 8px;
+  }
+
+  .navbar-menu.open {
+    display: flex; /* ✅ show menu when open */
+  }
+
+  .navbar-menu li {
+    width: 100%;
+    text-align: center;
+  }
+
+  .navbar-menu li a {
+    display: block;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 1rem;
+    color: #333;
+    transition: background 0.2s;
+  }
+
+  .navbar-menu li a:hover {
+    background: #f3f0fa;
+    color: #764ba2;
+  }
+
+  /* Make sure navbar is relative for absolute menu */
+  .navbar {
+    position: relative;
+  }
+}
+        /* Hero Section */
+        .hero {
+            position: relative;
+            min-height: 70vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding: 10px;
+            max-width: 800px;
+            animation: fadeInUp 1s ease-out;
+        }
+        
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .hero h1 {
+            font-size: 5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #764ba2 10%,  #bf96fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            text-shadow: none;
+            filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.2));
+            line-height: 1.05;
+        }
+
+        /* Typing animation styles */
+        .typing-line {
+            display: inline-block;
+            white-space: nowrap;
+        }
+        
+        
+        /* Section Styling */
+        .section {
+            padding: 70px 20px;
+            position: relative;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #2d3436;
+            margin-bottom: 15px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-header h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, #ffffff, #ffffff);
+            border-radius: 2px;
+        }
+        
+       
+        
+        /* Story Section */
+        .story-section {
+            background: linear-gradient(rgb(246, 242, 243), rgba(250, 250, 250, 0.6));            color: #333;
+        }
+        
+        .story-section .section-header h2 {
+            color:#764ba2;
+        }
+        
+        .story-section .section-header h2::after {
+            background: linear-gradient(90deg, #e7d8f6, #c8b3e0);
+        }
+        
+        
+        .story-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .story-content p {
+            font-style:italic;
+            font-weight: 500;
+            font-size: 1.4rem;
+            line-height: 2.2;
+            color: #555;
+            margin-bottom: 25px;
+            text-align: justify;
+        }
+        
+        /* Team Section */
+        .team-section h2{
+            color: #764ba2;
+        }
+        .team-section .section-header h2::after {
+            background: linear-gradient(90deg, #e7d8f6, #c8b3e0);
+        }
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            max-width:auto;
+            margin: 0 0;
+        }
+        
+        .team-column {
+            display: flex;
+            flex-direction: row;
+            gap: 20px;
+        }
+        
+        .team-member {
+            background: white;
+            border-radius: 0px;
+            padding: 40px 30px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            transition: height 0.3s cubic-bezier(.4,2,.6,1), box-shadow 0.3s;
+            /* reduced height to a more compact size */
+            height: 380px;
+        }
+
+        .team-member.stretch {
+            height: 650px;
+            box-shadow: 0 16px 48px rgba(102,75,162,0.18);
+            z-index: 2;
+        }
+        
+        .member-avatar {
+            /* increased avatar container size */
+            width: 170px;
+            height: 170px;
+            background: linear-gradient(135deg, #e7d8f6 0%, #c8b3e0 100%);
+            border-radius: 50%;
+            margin: 0 auto 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.8rem;
+            color: white;
+            font-weight: 800;
+            box-shadow: 0 15px 40px rgba(231, 216, 246, 0.6);
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        /* Ensure images inside avatar container fill it and override any inline sizing */
+        .member-avatar img{
+            width:100% !important;
+            height:100% !important;
+            object-fit:cover !important;
+            display:block !important;
+            border-radius:50% !important;
+        }
+        
+        .member-avatar:hover {
+            transform: scale(1.05);
+        }
+        
+        .member-avatar:active {
+            transform: scale(0.98);
+        }
+        
+    /* Contact buttons and links removed */
+        
+        .team-member h3 {
+            font-size: 1.4rem;
+            color: #2d3436;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .team-member .role {
+            color: #9b7ec4;
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .team-member p {
+            color: #636e72;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .hero p { font-size: 1.1rem; }
+            .section-header h2 { font-size: 2rem; }
+            .section { padding: 50px 20px; }
+            .team-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+        }
+      
+    </style>
+    <body class="bg-discover">
+        <!-- Navbar -->
+       <nav class="navbar">
+<div class="navbar-container">
+  <a href="index.html" class="navbar-brand">
+    <img src="images/logo.jpg" alt="Logo" style="height:60px; width:200px; border-radius:8%; margin-right:0.5rem; object-fit:cover; vertical-align:middle;">
+  </a>
+
+  <!-- ✅ Hamburger button -->
+  <button class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+
+  <ul class="navbar-menu" id="navbar-menu">
+        <li><a href="index.html">Home</a></li>
+    <li><a href="discover.html" onclick="return LoginModal.requireLogin(event)">Discover</a></li>
+    <li><a href="trending.html" onclick="return LoginModal.requireLogin(event)">Trending</a></li>
+    <li><a href="about.html" class="active">About</a></li>
+  </ul>
+</div>
+</nav>
+
+</head>
+<body>
+    <div class="hero">
+        <div class="hero-content">
+            <h1>
+                <span id="line1" class="typing-line"></span><br>
+                <span id="line2" class="typing-line"></span>
+            </h1>
+        </div>
+    </div>    
+    <div class="section story-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Our Story</h2>
+            </div>
+            <div class="story-content">
+                <p><span style="font-size:4rem; font-family:serif; line-height: 1;color:#764ba2; font-weight:bold; vertical-align:center;">&ldquo;</span>This app was born from a simple observation: 
+                    too much good food ends up in the trash, not because it's bad, but because people don't know what to do with it. 
+                    We've all been there — coming home tired, opening the fridge and feeling overwhelmed by random ingredients that don't seem to go together.
+                     We created this platform to bridge that gap between what's in your kitchen and what's on your table. 
+                     Our vision is a world where home cooking is accessible, creative, and sustainable. Where every carrot, every grain of rice, 
+                     and every leftover herb finds its way into a delicious meal instead of the garbage bin.  <span style="font-size:4rem; font-family:serif; color:#764ba2;line-height: 0.8; font-weight:bold; vertical-align:bottom;">&rdquo;</span></p>
+                     <h3 style="font-size: 1.5rem;font-family:serif;text-align:right; color:#000000; font-weight:600; margin-top:20px;">-Team CookSmart</h3>
+            </div>
+        </div>
+    </div>
+    
+    <div class="section team-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Meet Our Team</h2>
+            </div>
+            <div class="team-grid">
+                <div class="team-member">
+                  <div class="member-avatar" style="background: none; padding: 0; overflow: hidden;">
+                        <img src="images/tanvi.jpeg" alt="Tanvi Sonune" style="width: 130px; height: 130px; object-fit: cover; object-position: center top; border-radius: 50%; display: block;" />
+                    </div>
+                    <h3>Tanvi Sonune</h3>
+                    <div class="role">Software Engineer</div>
+                    <!-- contact removed -->
+                </div>
+                <div class="team-member">
+                    <div class="member-avatar" style="background: none; padding: 0; overflow: hidden;">
+                        <img src="images/akshata.jpeg" alt="Akshata Biradar" style="width: 130px; height: 130px; object-fit: cover; border-radius: 50%; display: block;" />
+                    </div>
+                    <h3>Akshata Biradar</h3>
+                    <div class="role">Software Engineer</div>
+                    <!-- contact removed -->
+                </div>
+                <div class="team-member">
+                    <div class="member-avatar" style="background: none; padding: 0; overflow: hidden;">
+                            <img src="images/pranjal.jpeg" alt="Pranjal Manjarekar" style="width: 130px; height: 130px; object-fit: cover; object-position: center top; border-radius: 50%; display: block; margin-top: -40px; transform: scale(1.18); transform-origin: center top; transition: transform 0.18s ease;" />
+                    </div>
+                    <h3>Pranjal Manjarekar</h3>
+                    <div class="role">Software Engineer</div>
+                    <!-- contact removed -->
+                </div>
+                <div class="team-member">
+                    <div class="member-avatar" style="background: none; padding: 0; overflow: hidden;">
+                        <img src="images/ketan.JPG" alt="Ketan Agrawal" style="width: 130px; height: 130px; object-fit: cover; border-radius: 50%; display: block;" />
+                    </div>
+                    <h3>Ketan Agrawal</h3>
+                    <div class="role">Software Engineer</div>
+                    <!-- contact removed -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Typing animation for hero lines
+        (function() {
+            const lines = ["Cook Smarter,", "Waste Lesser"];
+            const el1 = document.getElementById('line1');
+            const el2 = document.getElementById('line2');
+
+            const speed = 200; // ms per character (slower)
+            const pauseBetweenLines = 600; // ms
+
+            function typeText(element, text, cb) {
+                let i = 0;
+                element.textContent = '';
+                // no cursor: just type into the element
+                function step() {
+                    if (i < text.length) {
+                        element.textContent += text.charAt(i);
+                        i++;
+                        // move cursor to always follow the element (no DOM reposition required)
+                        requestAnimationFrame(() => {
+                            // no-op; cursor is inline and will naturally follow
+                        });
+                        setTimeout(step, speed);
+                    } else {
+                        setTimeout(cb, 300);
+                    }
+                }
+                step();
+            }
+
+            // Start typing sequence
+            // start typing sequence
+            typeText(el1, lines[0], () => {
+                setTimeout(() => {
+                    typeText(el2, lines[1], () => {
+                        // done
+                    });
+                }, pauseBetweenLines);
+            });
+        })();
+    // Contact UI removed; toggleContacts function removed
+    </script>
+    <footer class="footer">
+    <p>&copy; 2026 CookSmart. Made with ❤️ by Team CookSmart</p>
+  </footer>
+
+  <script>
+function toggleMenu() {
+  const menu = document.getElementById('navbar-menu');
+  const hamburger = document.getElementById('hamburger');
+  menu.classList.toggle('open');
+  hamburger.classList.toggle('open');
+}
+
+// Close menu when clicking outside
+document.addEventListener('click', function(e) {
+  const menu = document.getElementById('navbar-menu');
+  const hamburger = document.getElementById('hamburger');
+  if (!menu.contains(e.target) && !hamburger.contains(e.target)) {
+    menu.classList.remove('open');
+    hamburger.classList.remove('open');
+  }
+});
+
+// Close menu when a link is clicked
+document.querySelectorAll('.navbar-menu a').forEach(link => {
+  link.addEventListener('click', () => {
+    document.getElementById('navbar-menu').classList.remove('open');
+    document.getElementById('hamburger').classList.remove('open');
+  });
+});
+</script>
+</body>
+</html>
